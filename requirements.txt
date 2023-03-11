@@ -1,0 +1,7 @@
+ftfy
+regex
+tqdm
+torch
+torchvision
+gdown
+git+https://github.com/KaiyangZhou/Dassl.pytorch.git

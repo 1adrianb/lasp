@@ -1,0 +1,397 @@
+***************
+** Arguments **
+***************
+backbone: 
+config_file: configs/LASP/vit_b16_c4_ep50_batch32_cls_t2t_10_wcl_25_g1_b_lr32.yaml
+dataset_config_file: configs/datasets/caltech101.yaml
+eval_only: False
+head: 
+load_epoch: None
+model_dir: 
+no_train: False
+opts: ['DATASET.NUM_SHOTS', '16', 'DATASET.SUBSAMPLE_CLASSES', 'base']
+output_dir: output/base2new/train_base/caltech101/shots_16/LASP/vit_b16_c4_ep50_batch32_cls_t2t_10_wcl_25_g1_b_lr32/seed1
+resume: 
+root: /home/work/shared-fi-datasets-01/users/adrian.bulat/data/fs_datasets/
+seed: 1
+source_domains: None
+target_domains: None
+trainer: LASP
+transforms: None
+************
+** Config **
+************
+DATALOADER:
+  K_TRANSFORMS: 1
+  NUM_WORKERS: 8
+  RETURN_IMG0: False
+  TEST:
+    BATCH_SIZE: 32
+    SAMPLER: SequentialSampler
+  TRAIN_U:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAME_AS_X: True
+    SAMPLER: RandomSampler
+  TRAIN_X:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAMPLER: RandomSampler
+DATASET:
+  ALL_AS_UNLABELED: False
+  CIFAR_C_LEVEL: 1
+  CIFAR_C_TYPE: 
+  INCLUDE_ALL_CLASSES: False
+  NAME: Caltech101
+  NUM_LABELED: -1
+  NUM_SHOTS: 16
+  ROOT: /home/work/shared-fi-datasets-01/users/adrian.bulat/data/fs_datasets/
+  SOURCE_DOMAINS: ()
+  STL10_FOLD: -1
+  SUBSAMPLE_CLASSES: base
+  TARGET_DOMAINS: ()
+  VAL_PERCENT: 0.1
+INPUT:
+  COLORJITTER_B: 0.4
+  COLORJITTER_C: 0.4
+  COLORJITTER_H: 0.1
+  COLORJITTER_S: 0.4
+  CROP_PADDING: 4
+  CUTOUT_LEN: 16
+  CUTOUT_N: 1
+  GB_K: 21
+  GB_P: 0.5
+  GN_MEAN: 0.0
+  GN_STD: 0.15
+  INTERPOLATION: bicubic
+  NO_TRANSFORM: False
+  PIXEL_MEAN: [0.48145466, 0.4578275, 0.40821073]
+  PIXEL_STD: [0.26862954, 0.26130258, 0.27577711]
+  RANDAUGMENT_M: 10
+  RANDAUGMENT_N: 2
+  RGS_P: 0.2
+  RRCROP_SCALE: (0.08, 1.0)
+  SIZE: (224, 224)
+  TRANSFORMS: ('random_resized_crop', 'random_flip', 'normalize')
+MODEL:
+  BACKBONE:
+    NAME: ViT-B/16
+    PRETRAINED: True
+  HEAD:
+    ACTIVATION: relu
+    BN: True
+    DROPOUT: 0.0
+    HIDDEN_LAYERS: ()
+    NAME: 
+  INIT_WEIGHTS: 
+OPTIM:
+  ADAM_BETA1: 0.9
+  ADAM_BETA2: 0.999
+  BASE_LR_MULT: 0.1
+  GAMMA: 0.1
+  LR: 0.032
+  LR_SCHEDULER: cosine
+  MAX_EPOCH: 50
+  MOMENTUM: 0.9
+  NAME: sgd
+  NEW_LAYERS: ()
+  RMSPROP_ALPHA: 0.99
+  SGD_DAMPNING: 0
+  SGD_NESTEROV: False
+  STAGED_LR: False
+  STEPSIZE: (-1,)
+  WARMUP_CONS_LR: 1e-05
+  WARMUP_EPOCH: 5
+  WARMUP_MIN_LR: 1e-05
+  WARMUP_RECOUNT: True
+  WARMUP_TYPE: constant
+  WEIGHT_DECAY: 0.0005
+OUTPUT_DIR: output/base2new/train_base/caltech101/shots_16/LASP/vit_b16_c4_ep50_batch32_cls_t2t_10_wcl_25_g1_b_lr32/seed1
+RESUME: 
+SEED: 1
+TEST:
+  COMPUTE_CMAT: False
+  EVALUATOR: Classification
+  FINAL_MODEL: last_step
+  NO_TEST: False
+  PER_CLASS_RESULT: False
+  SPLIT: test
+TRAIN:
+  CHECKPOINT_FREQ: 0
+  COUNT_ITER: train_x
+  PRINT_FREQ: 20
+TRAINER:
+  CDAC:
+    CLASS_LR_MULTI: 10
+    P_THRESH: 0.95
+    RAMPUP_COEF: 30
+    RAMPUP_ITRS: 1000
+    STRONG_TRANSFORMS: ()
+    TOPK_MATCH: 5
+  CROSSGRAD:
+    ALPHA_D: 0.5
+    ALPHA_F: 0.5
+    EPS_D: 1.0
+    EPS_F: 1.0
+  DAEL:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DAELDG:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DDAIG:
+    ALPHA: 0.5
+    CLAMP: False
+    CLAMP_MAX: 1.0
+    CLAMP_MIN: -1.0
+    G_ARCH: 
+    LMDA: 0.3
+    WARMUP: 0
+  DOMAINMIX:
+    ALPHA: 1.0
+    BETA: 1.0
+    TYPE: crossdomain
+  ENTMIN:
+    LMDA: 0.001
+  FIXMATCH:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 1.0
+  LASP:
+    CTX_INIT: a photo of a
+    ENABLE: True
+    ENABLE_CORRECTION: True
+    ENABLE_IMPLICIT_OP: sum
+    FINETUNE_VIT_LN: True
+    LASP_LOSS_WEIGHT: 10.0
+    LASP_PROMPTS: ['a photo of a {}, a type of flower.', 'a photo of a person doing {}.', 'a centered satellite photo of {}.', 'a photo of a {}, a type of aircraft.', '{} texture.', 'itap of a {}.', 'a bad photo of the {}.', 'a origami {}.', 'a photo of the large {}.', 'a {} in a video game.', 'art of the {}.', 'a photo of the small {}.', 'a photo of a {}.', 'a photo of many {}.', 'a photo of the hard to see {}.', 'a low resolution photo of the {}.', 'a rendering of a {}.', 'a bad photo of the {}.', 'a cropped photo of the {}.', 'a pixelated photo of the {}.', 'a bright photo of the {}.', 'a cropped photo of a {}.', 'a photo of the {}.', 'a good photo of the {}.', 'a rendering of the {}.', 'a close-up photo of the {}.', 'a low resolution photo of a {}.', 'a rendition of the {}.', 'a photo of the clean {}.', 'a photo of a large {}.', 'a blurry photo of a {}.', 'a pixelated photo of a {}.', 'itap of the {}.', 'a jpeg corrupted photo of the {}.', 'a good photo of a {}.']
+    N_CTX: 4
+    PREC: amp
+    PRETRAINED_PROMPTS_DIR: None
+    TRAIN_W: True
+  M3SDA:
+    LMDA: 0.5
+    N_STEP_F: 4
+  MCD:
+    N_STEP_F: 4
+  MEANTEACHER:
+    EMA_ALPHA: 0.999
+    RAMPUP: 5
+    WEIGHT_U: 1.0
+  MIXMATCH:
+    MIXUP_BETA: 0.75
+    RAMPUP: 20000
+    TEMP: 2.0
+    WEIGHT_U: 100.0
+  MME:
+    LMDA: 0.1
+  NAME: LASP
+  SE:
+    CONF_THRE: 0.95
+    EMA_ALPHA: 0.999
+    RAMPUP: 300
+USE_CUDA: True
+VERBOSE: True
+VERSION: 1
+Collecting env info ...
+** System info **
+PyTorch version: 2.1.0.dev20230312
+Is debug build: False
+CUDA used to build PyTorch: 11.8
+ROCM used to build PyTorch: N/A
+
+OS: Ubuntu 20.04.4 LTS (x86_64)
+GCC version: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+Clang version: Could not collect
+CMake version: version 3.25.0
+Libc version: glibc-2.31
+
+Python version: 3.9.15 | packaged by conda-forge | (main, Nov 22 2022, 15:55:03)  [GCC 10.4.0] (64-bit runtime)
+Python platform: Linux-5.4.0-100-generic-x86_64-with-glibc2.31
+Is CUDA available: True
+CUDA runtime version: 11.7.99
+CUDA_MODULE_LOADING set to: LAZY
+GPU models and configuration: 
+GPU 0: CUDA GPU
+GPU 1: CUDA GPU
+GPU 2: CUDA GPU
+GPU 3: CUDA GPU
+
+Nvidia driver version: 520.61.05
+cuDNN version: Probably one of the following:
+/usr/lib/x86_64-linux-gnu/libcudnn.so.8.4.0
+/usr/lib/x86_64-linux-gnu/libcudnn_adv_infer.so.8.4.0
+/usr/lib/x86_64-linux-gnu/libcudnn_adv_train.so.8.4.0
+/usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8.4.0
+/usr/lib/x86_64-linux-gnu/libcudnn_cnn_train.so.8.4.0
+/usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8.4.0
+/usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8.4.0
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   48 bits physical, 48 bits virtual
+CPU(s):                          128
+On-line CPU(s) list:             0-127
+Thread(s) per core:              2
+Core(s) per socket:              32
+Socket(s):                       2
+NUMA node(s):                    4
+Vendor ID:                       AuthenticAMD
+CPU family:                      23
+Model:                           49
+Model name:                      AMD EPYC 7452 32-Core Processor
+Stepping:                        0
+CPU MHz:                         3293.784
+BogoMIPS:                        4691.32
+Virtualization:                  AMD-V
+L1d cache:                       2 MiB
+L1i cache:                       2 MiB
+L2 cache:                        32 MiB
+L3 cache:                        256 MiB
+NUMA node0 CPU(s):               0-15,64-79
+NUMA node1 CPU(s):               16-31,80-95
+NUMA node2 CPU(s):               32-47,96-111
+NUMA node3 CPU(s):               48-63,112-127
+Vulnerability Itlb multihit:     Not affected
+Vulnerability L1tf:              Not affected
+Vulnerability Mds:               Not affected
+Vulnerability Meltdown:          Not affected
+Vulnerability Spec store bypass: Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Full AMD retpoline, IBPB conditional, IBRS_FW, STIBP conditional, RSB filling
+Vulnerability Srbds:             Not affected
+Vulnerability Tsx async abort:   Not affected
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif umip rdpid overflow_recov succor smca
+
+Versions of relevant libraries:
+[pip3] mypy-extensions==0.4.3
+[pip3] numpy==1.24.2
+[pip3] open-clip-torch==2.16.0
+[pip3] pytorch-memlab==0.2.4
+[pip3] pytorch-metric-learning==2.0.1
+[pip3] torch==2.1.0.dev20230312
+[pip3] torchaudio==2.0.0.dev20230312
+[pip3] torchvision==0.15.0.dev20230312
+[conda] blas                      1.0                         mkl  
+[conda] libblas                   3.9.0            16_linux64_mkl    conda-forge
+[conda] libcblas                  3.9.0            16_linux64_mkl    conda-forge
+[conda] liblapack                 3.9.0            16_linux64_mkl    conda-forge
+[conda] liblapacke                3.9.0            16_linux64_mkl    conda-forge
+[conda] mkl                       2022.1.0           hc2b9512_224  
+[conda] numpy                     1.24.2                   pypi_0    pypi
+[conda] open-clip-torch           2.16.0                    dev_0    <develop>
+[conda] pytorch                   2.1.0.dev20230312 py3.9_cuda11.8_cudnn8.7.0_0    pytorch-nightly
+[conda] pytorch-cuda              11.8                 h7e8668a_3    pytorch-nightly
+[conda] pytorch-memlab            0.2.4                    pypi_0    pypi
+[conda] pytorch-metric-learning   2.0.1                    pypi_0    pypi
+[conda] pytorch-mutex             1.0                        cuda    pytorch
+[conda] torchaudio                2.0.0.dev20230312      py39_cu118    pytorch-nightly
+[conda] torchtriton               2.1.0+2c32f43999            py39    pytorch-nightly
+[conda] torchvision               0.15.0.dev20230312      py39_cu118    pytorch-nightly
+        Pillow (9.3.0)
+
+Loading trainer: LASP
+Loading dataset: Caltech101
+Reading split from /home/work/shared-fi-datasets-01/users/adrian.bulat/data/fs_datasets/caltech-101/split_zhou_Caltech101.json
+Loading preprocessed few-shot data from /home/work/shared-fi-datasets-01/users/adrian.bulat/data/fs_datasets/caltech-101/split_fewshot/shot_16-seed_1.pkl
+SUBSAMPLE BASE CLASSES!
+Building transform_train
++ random resized crop (size=(224, 224), scale=(0.08, 1.0))
++ random flip
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+Building transform_test
++ resize the smaller edge to 224
++ 224x224 center crop
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+---------  ----------
+Dataset    Caltech101
+# classes  50
+# train_x  800
+# val      200
+# test     1,549
+---------  ----------
+Loading CLIP (backbone: ViT-B/16)
+Building custom CLIP
+Initial context: "a photo of a"
+Number of context words (tokens): 4
+Initializing LASP prompts...
+Num classes used for LASP: 100
+Turning off gradients in both the image and the text encoder
+Re-enabling LN...
+Parameters to be updated: {'image_encoder.transformer.resblocks.4.ln_1.bias', 'image_encoder.transformer.resblocks.7.ln_2.bias', 'image_encoder.transformer.resblocks.1.ln_2.weight', 'image_encoder.transformer.resblocks.5.ln_2.weight', 'image_encoder.transformer.resblocks.10.ln_2.weight', 'image_encoder.transformer.resblocks.5.ln_1.weight', 'image_encoder.transformer.resblocks.11.ln_1.bias', 'image_encoder.transformer.resblocks.9.ln_1.weight', 'image_encoder.transformer.resblocks.0.ln_1.weight', 'image_encoder.transformer.resblocks.4.ln_2.bias', 'image_encoder.transformer.resblocks.11.ln_1.weight', 'image_encoder.transformer.resblocks.6.ln_2.bias', 'image_encoder.transformer.resblocks.2.ln_1.weight', 'image_encoder.transformer.resblocks.1.ln_1.bias', 'image_encoder.transformer.resblocks.3.ln_1.bias', 'image_encoder.transformer.resblocks.8.ln_1.weight', 'image_encoder.transformer.resblocks.1.ln_1.weight', 'image_encoder.transformer.resblocks.4.ln_2.weight', 'image_encoder.transformer.resblocks.5.ln_1.bias', 'prompt_learner.w', 'image_encoder.transformer.resblocks.8.ln_2.bias', 'image_encoder.transformer.resblocks.0.ln_2.weight', 'image_encoder.transformer.resblocks.0.ln_2.bias', 'image_encoder.transformer.resblocks.8.ln_2.weight', 'image_encoder.transformer.resblocks.9.ln_2.weight', 'image_encoder.transformer.resblocks.10.ln_1.weight', 'prompt_learner.ctx', 'image_encoder.transformer.resblocks.3.ln_1.weight', 'image_encoder.transformer.resblocks.0.ln_1.bias', 'image_encoder.transformer.resblocks.10.ln_1.bias', 'image_encoder.transformer.resblocks.3.ln_2.weight', 'image_encoder.transformer.resblocks.2.ln_2.weight', 'image_encoder.transformer.resblocks.9.ln_2.bias', 'image_encoder.transformer.resblocks.10.ln_2.bias', 'image_encoder.transformer.resblocks.6.ln_1.weight', 'image_encoder.transformer.resblocks.2.ln_2.bias', 'image_encoder.transformer.resblocks.11.ln_2.bias', 'image_encoder.transformer.resblocks.6.ln_2.weight', 'image_encoder.transformer.resblocks.9.ln_1.bias', 'image_encoder.transformer.resblocks.8.ln_1.bias', 'image_encoder.transformer.resblocks.1.ln_2.bias', 'image_encoder.transformer.resblocks.11.ln_2.weight', 'image_encoder.transformer.resblocks.3.ln_2.bias', 'image_encoder.transformer.resblocks.2.ln_1.bias', 'image_encoder.transformer.resblocks.7.ln_1.bias', 'image_encoder.transformer.resblocks.7.ln_2.weight', 'image_encoder.transformer.resblocks.6.ln_1.bias', 'image_encoder.transformer.resblocks.5.ln_2.bias', 'image_encoder.transformer.resblocks.7.ln_1.weight', 'image_encoder.transformer.resblocks.4.ln_1.weight'}
+Loading evaluator: Classification
+Note that load_model() is skipped as no pretrained model is given
+No checkpoint found, train from scratch
+Initialize tensorboard (log_dir=output/base2new/train_base/caltech101/shots_16/LASP/vit_b16_c4_ep50_batch32_cls_t2t_10_wcl_25_g1_b_lr32/seed1/tensorboard)
+epoch [1/50] batch [20/25] time 0.087 (0.183) data 0.000 (0.049) loss 0.7971 (0.6942) lr 1.0000e-05 eta 0:03:45
+epoch [2/50] batch [20/25] time 0.086 (0.094) data 0.000 (0.006) loss 0.6195 (0.7099) lr 1.0000e-05 eta 0:01:53
+epoch [3/50] batch [20/25] time 0.086 (0.095) data 0.000 (0.008) loss 0.8146 (0.6854) lr 1.0000e-05 eta 0:01:52
+epoch [4/50] batch [20/25] time 0.088 (0.095) data 0.000 (0.007) loss 0.5583 (0.6778) lr 1.0000e-05 eta 0:01:49
+epoch [5/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.006) loss 0.7994 (0.6655) lr 1.0000e-05 eta 0:01:45
+epoch [6/50] batch [20/25] time 0.086 (0.094) data 0.000 (0.006) loss 0.4971 (0.5964) lr 3.2000e-03 eta 0:01:43
+epoch [7/50] batch [20/25] time 0.086 (0.092) data 0.000 (0.006) loss 0.6258 (0.5113) lr 3.1968e-03 eta 0:01:39
+epoch [8/50] batch [20/25] time 0.086 (0.093) data 0.000 (0.007) loss 0.4356 (0.4805) lr 3.1874e-03 eta 0:01:38
+epoch [9/50] batch [20/25] time 0.086 (0.093) data 0.000 (0.006) loss 0.4534 (0.4630) lr 3.1717e-03 eta 0:01:35
+epoch [10/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.007) loss 0.5119 (0.4418) lr 3.1497e-03 eta 0:01:34
+epoch [11/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.005) loss 0.5094 (0.4833) lr 3.1217e-03 eta 0:01:32
+epoch [12/50] batch [20/25] time 0.087 (0.095) data 0.000 (0.006) loss 0.4654 (0.4630) lr 3.0876e-03 eta 0:01:30
+epoch [13/50] batch [20/25] time 0.087 (0.096) data 0.000 (0.008) loss 0.7172 (0.4391) lr 3.0477e-03 eta 0:01:29
+epoch [14/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.2640 (0.4448) lr 3.0021e-03 eta 0:01:24
+epoch [15/50] batch [20/25] time 0.087 (0.095) data 0.000 (0.007) loss 0.1013 (0.3982) lr 2.9509e-03 eta 0:01:23
+epoch [16/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.005) loss 0.5135 (0.3980) lr 2.8944e-03 eta 0:01:20
+epoch [17/50] batch [20/25] time 0.086 (0.093) data 0.000 (0.005) loss 0.3773 (0.4233) lr 2.8328e-03 eta 0:01:17
+epoch [18/50] batch [20/25] time 0.086 (0.093) data 0.000 (0.006) loss 0.6628 (0.4651) lr 2.7663e-03 eta 0:01:14
+epoch [19/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.4742 (0.4195) lr 2.6953e-03 eta 0:01:13
+epoch [20/50] batch [20/25] time 0.087 (0.095) data 0.000 (0.007) loss 0.4802 (0.3659) lr 2.6199e-03 eta 0:01:11
+epoch [21/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.006) loss 0.2233 (0.3730) lr 2.5405e-03 eta 0:01:08
+epoch [22/50] batch [20/25] time 0.087 (0.095) data 0.000 (0.006) loss 0.3405 (0.4143) lr 2.4573e-03 eta 0:01:06
+epoch [23/50] batch [20/25] time 0.087 (0.093) data 0.000 (0.005) loss 0.3428 (0.3664) lr 2.3708e-03 eta 0:01:03
+epoch [24/50] batch [20/25] time 0.087 (0.093) data 0.000 (0.005) loss 0.4667 (0.3523) lr 2.2812e-03 eta 0:01:01
+epoch [25/50] batch [20/25] time 0.088 (0.095) data 0.000 (0.007) loss 0.3369 (0.3846) lr 2.1890e-03 eta 0:01:00
+epoch [26/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.006) loss 0.5194 (0.4087) lr 2.0944e-03 eta 0:00:56
+epoch [27/50] batch [20/25] time 0.087 (0.096) data 0.000 (0.007) loss 0.2656 (0.3281) lr 1.9979e-03 eta 0:00:55
+epoch [28/50] batch [20/25] time 0.088 (0.093) data 0.000 (0.005) loss 0.3630 (0.3438) lr 1.8998e-03 eta 0:00:51
+epoch [29/50] batch [20/25] time 0.087 (0.093) data 0.000 (0.005) loss 0.1707 (0.4194) lr 1.8005e-03 eta 0:00:49
+epoch [30/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.005) loss 0.0339 (0.3248) lr 1.7005e-03 eta 0:00:47
+epoch [31/50] batch [20/25] time 0.088 (0.093) data 0.000 (0.005) loss 0.2591 (0.2959) lr 1.6000e-03 eta 0:00:44
+epoch [32/50] batch [20/25] time 0.088 (0.095) data 0.000 (0.007) loss 0.3778 (0.3668) lr 1.4995e-03 eta 0:00:43
+epoch [33/50] batch [20/25] time 0.087 (0.093) data 0.000 (0.005) loss 0.4644 (0.3157) lr 1.3995e-03 eta 0:00:40
+epoch [34/50] batch [20/25] time 0.088 (0.095) data 0.000 (0.008) loss 0.1695 (0.3299) lr 1.3002e-03 eta 0:00:38
+epoch [35/50] batch [20/25] time 0.087 (0.096) data 0.000 (0.008) loss 0.3013 (0.3496) lr 1.2021e-03 eta 0:00:36
+epoch [36/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.3379 (0.3511) lr 1.1056e-03 eta 0:00:33
+epoch [37/50] batch [20/25] time 0.087 (0.093) data 0.000 (0.005) loss 0.3984 (0.3490) lr 1.0110e-03 eta 0:00:30
+epoch [38/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.3378 (0.3310) lr 9.1875e-04 eta 0:00:28
+epoch [39/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.2707 (0.2980) lr 8.2919e-04 eta 0:00:26
+epoch [40/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.006) loss 0.3027 (0.2985) lr 7.4268e-04 eta 0:00:24
+epoch [41/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.005) loss 0.4230 (0.2651) lr 6.5954e-04 eta 0:00:21
+epoch [42/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.005) loss 0.3274 (0.3330) lr 5.8012e-04 eta 0:00:19
+epoch [43/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.006) loss 0.4956 (0.3218) lr 5.0472e-04 eta 0:00:16
+epoch [44/50] batch [20/25] time 0.088 (0.094) data 0.000 (0.005) loss 0.2984 (0.3100) lr 4.3365e-04 eta 0:00:14
+epoch [45/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.3261 (0.3717) lr 3.6718e-04 eta 0:00:12
+epoch [46/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.005) loss 0.4139 (0.2521) lr 3.0557e-04 eta 0:00:09
+epoch [47/50] batch [20/25] time 0.088 (0.096) data 0.000 (0.007) loss 0.2670 (0.3332) lr 2.4908e-04 eta 0:00:07
+epoch [48/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.1306 (0.3464) lr 1.9791e-04 eta 0:00:05
+epoch [49/50] batch [20/25] time 0.088 (0.096) data 0.000 (0.008) loss 0.3447 (0.3367) lr 1.5228e-04 eta 0:00:02
+epoch [50/50] batch [20/25] time 0.087 (0.094) data 0.000 (0.006) loss 0.5713 (0.3454) lr 1.1236e-04 eta 0:00:00
+Checkpoint saved to output/base2new/train_base/caltech101/shots_16/LASP/vit_b16_c4_ep50_batch32_cls_t2t_10_wcl_25_g1_b_lr32/seed1/prompt_learner/model.pth.tar-50
+Finish training
+Deploy the last-epoch model
+Evaluate on the *test* set
+=> result
+* total: 1,549
+* correct: 1,524
+* accuracy: 98.4%
+* error: 1.6%
+* macro_f1: 97.0%
+Elapsed: 0:02:24
